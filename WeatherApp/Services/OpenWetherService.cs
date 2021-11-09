@@ -10,7 +10,7 @@ namespace WeatherApp.Services
 {
     class OpenWetherService : IWindDataService
     {
-        private OpenWeatherProcessor owp;
+        private static OpenWeatherProcessor owp;
         public WindDataModel LastWindData;
 
         public OpenWetherService(string apiKey)
@@ -22,7 +22,7 @@ namespace WeatherApp.Services
         {
             Task<OWCurrentWeaterModel> task = owp.GetCurrentWeatherAsync();
             await task;
-            return LastWindData = new WindDataModel { DateTime = DateTime.FromOADate(task.Result.DateTime), Direction = task.Result.Wind.Deg, MetrePerSec = task.Result.Wind.Speed };
+            return LastWindData = new WindDataModel { DateTime = DateTime.UnixEpoch.AddSeconds(task.Result.DateTime), Direction = task.Result.Wind.Deg, MetrePerSec = task.Result.Wind.Speed };
         }
     }
 }
